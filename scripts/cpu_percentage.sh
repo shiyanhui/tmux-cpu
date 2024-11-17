@@ -36,7 +36,12 @@ print_cpu_percentage() {
   fi
 }
 
+new_print_cpu_percentage() {
+  usage=$(top -l 1 | grep "CPU usage" | awk '{print $3 + $5}')
+  printf "$cpu_percentage_format" "$usage"
+}
+
 main() {
-  print_cpu_percentage
+  new_print_cpu_percentage
 }
 main

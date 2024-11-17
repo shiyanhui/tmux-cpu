@@ -7,9 +7,11 @@ source "$CURRENT_DIR/helpers.sh"
 
 ram_percentage_format="%3.1f%%"
 
+page_size=$(sysctl vm.pagesize | awk {'print $2'})
+
 sum_macos_vm_stats() {
   grep -Eo '[0-9]+' |
-    awk '{ a += $1 * 4096 } END { print a }'
+    awk -v page_size="$page_size" '{ a += $1 * page_size } END { print a }'
 }
 
 print_ram_percentage() {
